@@ -114,6 +114,8 @@ func (berEncoding) RandomInteger() []byte {
     result[1] = byte(length)
 
     // and now we add on the contents
+    // randomContent... means that that slice is enumerated since append
+    // does not take another slice as the argument
     result = append(result, randomContent...)
 
     return result
