@@ -16,7 +16,7 @@ type EncodingRuleset interface {
     RandomBitString() []byte
     RandomOctetString() []byte
     RandomNull() []byte
-    //RandomObjectIdentifier() []byte
+    RandomObjectIdentifier() []byte
     //RandomReal() []byte
     //RandomEnumerated() []byte
 }
