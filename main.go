@@ -111,10 +111,10 @@ func (berEncoding) RandomInteger() []byte {
     // now we will build our result
     result := make([]byte, 2)
     result[0] = 0x02
-    result[1] = length
+    result[1] = byte(length)
 
     // and now we add on the contents
-    result = append(result, randomContent)
+    result = append(result, randomContent...)
 
     return result
 }
