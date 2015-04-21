@@ -69,15 +69,6 @@ func (berEncoding) RandomInteger() []byte {
     //
     // TODO: ^ do that thing from the last paragraph
 
-    // get a random int in [0, 128)
-    bigLength, err := rand.Int(rand.Reader, big.NewInt(128))
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    // convert to a regular old int
-    length := int(bigLength.Int64())
-
     // generate our random content
     //
     // there might be a small issue with the rule to ensure that an integer
@@ -102,16 +93,12 @@ func (berEncoding) RandomInteger() []byte {
     //
     // TODO: does this need to be fixed? what are the consequences?
 
-    randomContent := make([]byte, length)
-    _, err = rand.Read(randomContent)
-    if err != nil {
-        log.Fatal(err)
-    }
+    randomContent := GetRandomContent()
 
     // now we will build our result
     result := make([]byte, 2)
     result[0] = 0x02
-    result[1] = byte(length)
+    result[1] = byte(len(randomContent))
 
     // and now we add on the contents
     // randomContent... means that that slice is enumerated since append
@@ -143,6 +130,48 @@ func (berEncoding) RandomBitString() []byte {
     //
     // the length includes that special first octet 
 
+    randomContent := GetRandomContent()
+
+    // now we will build our result
+    result := make([]byte, 2)
+    result[0] = 0x03
+    result[1] = byte(len(randomContent))
+
+    // and now we add on the contents
+    // randomContent... means that that slice is enumerated since append
+    // does not take another slice as the argument
+    result = append(result, randomContent...)
+
+    return result
+}
+
+func (berEncoding) RandomOctetString() []byte {
+
+    // the encoding of an octetstring can be either primitive or constructed
+    // we are going to stick to primitive for now
+    //
+    // TODO: generated constructed octetstrings as well
+
+    randomContent := GetRandomContent()
+
+    // now we will build our result
+    result := make([]byte, 2)
+    result[0] = 0x03
+    result[1] = byte(len(randomContent))
+
+    // and now we add on the contents
+    // randomContent... means that that slice is enumerated since append
+    // does not take another slice as the argument
+    result = append(result, randomContent...)
+
+    return result
+}
+
+func GetRandomContent() []byte {
+
+    // we are just going to generate a random length and random content of that
+    // length
+
     // get a random int in [0, 128)
     bigLength, err := rand.Int(rand.Reader, big.NewInt(128))
     if err != nil {
@@ -158,17 +187,7 @@ func (berEncoding) RandomBitString() []byte {
         log.Fatal(err)
     }
 
-    // now we will build our result
-    result := make([]byte, 2)
-    result[0] = 0x03
-    result[1] = byte(length)
-
-    // and now we add on the contents
-    // randomContent... means that that slice is enumerated since append
-    // does not take another slice as the argument
-    result = append(result, randomContent...)
-
-    return result
+    return randomContent
 }
 
 func main() {
