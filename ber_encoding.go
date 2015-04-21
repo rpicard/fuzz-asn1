@@ -184,3 +184,28 @@ func (berEncoding) RandomNull() []byte {
     // this is always the same value
     return []byte{0x05, 0x00}
 }
+
+func (berEncoding) RandomReal() []byte {
+
+    // there are some special values that might be interesting
+    //
+    // one octet:
+    //
+    //    0100000 - PLUS-INFINITY
+    //    0100001 - MINUS-INFINITY
+    //
+    // in theory they can be generated at random by this code, but
+    // it might be worth generating those specifically
+    //
+    // TODO: look into that ^
+
+    randomContent := GetRandomContent()
+
+    result := make([]byte, 2)
+    result[0] = 0x09
+    result[1] = byte(len(randomContent))
+
+    result = append(result, randomContent...)
+
+    return result
+}
