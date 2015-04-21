@@ -18,7 +18,7 @@ type EncodingRuleset interface {
     RandomNull() []byte
     RandomObjectIdentifier() []byte
     RandomReal() []byte
-    //RandomEnumerated() []byte
+    RandomEnumerated() []byte
 }
 
 func main() {
@@ -37,12 +37,12 @@ func main() {
         }
 
         // just generating one value for now
-        outFile, err := os.Create(path.Join(cwd, "tmp", "object_identifier.asn1"))
+        outFile, err := os.Create(path.Join(cwd, "tmp", "real.asn1"))
         if err != nil {
             log.Fatal(err)
         }
 
-        fmt.Fprintf(outFile, "%s", BerEncoding.RandomObjectIdentifier())
+        fmt.Fprintf(outFile, "%s", BerEncoding.RandomReal())
     }
 
     app.Run(os.Args)

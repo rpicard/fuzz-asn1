@@ -209,3 +209,20 @@ func (berEncoding) RandomReal() []byte {
 
     return result
 }
+
+func (berEncoding) RandomEnumerated() []byte {
+
+    // this is supposedly encoded in EXACTLY the same way as the integer
+    // this means that the same length byte weirdness applies here too
+    // if we implement it for integer we should implement it here too
+
+    randomContent := GetRandomContent()
+
+    result := make([]byte, 2)
+    result[0] = 0x0A
+    result[1] = byte(len(randomContent))
+
+    result = append(result, randomContent...)
+
+    return result
+}
