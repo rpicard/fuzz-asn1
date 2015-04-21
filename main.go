@@ -68,8 +68,8 @@ func (berEncoding) RandomInteger() []byte {
     // a single length byte
     //
     // TODO: ^ do that thing from the last paragraph
-
-    // generate our random content
+    //
+    // now we generate our random content
     //
     // there might be a small issue with the rule to ensure that an integer
     // value is always encoded in the smallest possible number of octets
