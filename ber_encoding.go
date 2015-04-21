@@ -157,6 +157,27 @@ func (berEncoding) RandomOctetString() []byte {
     return result
 }
 
+func (berEncoding) RandomObjectIdentifier() []byte {
+
+    // the object identifier seems to just be a basic tag, length, value
+    // encoding
+    //
+    // it looks like we might not be generating a totally complete
+    // identifier
+    //
+    // TODO: make sure the identifiers that are generated are valid
+
+    randomContent := GetRandomContent()
+
+    result := make([]byte, 2)
+    result[0] = 0x06
+    result[1] = byte(len(randomContent))
+
+    result = append(result, randomContent...)
+
+    return result
+}
+
 func (berEncoding) RandomNull() []byte {
 
     // there is nothing to randomize

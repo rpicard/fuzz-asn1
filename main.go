@@ -37,19 +37,12 @@ func main() {
         }
 
         // just generating one value for now
-        outFile, err := os.Create(path.Join(cwd, "tmp", "bool.asn1"))
+        outFile, err := os.Create(path.Join(cwd, "tmp", "object_identifier.asn1"))
         if err != nil {
             log.Fatal(err)
         }
 
-        fmt.Fprintf(outFile, "%s", BerEncoding.RandomBoolean())
-
-        outFile, err = os.Create(path.Join(cwd, "tmp", "integer.asn1"))
-        if err != nil {
-            log.Fatal(err)
-        }
-
-        fmt.Fprintf(outFile, "%s", BerEncoding.RandomInteger())
+        fmt.Fprintf(outFile, "%s", BerEncoding.RandomObjectIdentifier())
     }
 
     app.Run(os.Args)
