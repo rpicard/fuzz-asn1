@@ -11,7 +11,7 @@ type EncodingRuleset interface {
     RandomInteger() []byte
     RandomBitString() []byte
     RandomOctetString() []byte
-    //RandomNull() []byte
+    RandomNull() []byte
     //RandomObjectIdentifier() []byte
     //RandomReal() []byte
     //RandomEnumerated() []byte
@@ -165,6 +165,13 @@ func (berEncoding) RandomOctetString() []byte {
     result = append(result, randomContent...)
 
     return result
+}
+
+func (berEncoding) RandomNull() []byte {
+
+    // there is nothing to randomize
+    // this is always the same value
+    return []byte{0x05, 0x00}
 }
 
 func GetRandomContent() []byte {
