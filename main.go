@@ -9,7 +9,7 @@ import (
 type EncodingRuleset interface {
     RandomBoolean() []byte
     RandomInteger() []byte
-    //RandomBitString() []byte
+    RandomBitString() []byte
     //RandomOctetString() []byte
     //RandomNull() []byte
     //RandomObjectIdentifier() []byte
@@ -111,6 +111,56 @@ func (berEncoding) RandomInteger() []byte {
     // now we will build our result
     result := make([]byte, 2)
     result[0] = 0x02
+    result[1] = byte(length)
+
+    // and now we add on the contents
+    // randomContent... means that that slice is enumerated since append
+    // does not take another slice as the argument
+    result = append(result, randomContent...)
+
+    return result
+}
+
+func (berEncoding) RandomBitString() []byte {
+
+    // the encoding of a bitstring can be either primitive or constructed
+    // we are going to stick to primitive for now
+    //
+    // TODO: generate constructed bitstrings as well
+    //
+    // the plan is to generate a random length and random content of that
+    // length
+    //
+    // there is some special meaning to the first octet of the content:
+    //
+    //   8.6.2.2 The initial octet shall encode, as an unsigned binary
+    //   integer with bit 1 as the least significant bit, the number of
+    //   unused bits in the final subsequent octet. The number shall be in
+    //   the range zero to seven. 
+    //
+    // we do not need to deal with that, as our random bytes will randomly
+    // tell the parser how many bits are unused in the last octet
+    //
+    // the length includes that special first octet 
+
+    // get a random int in [0, 128)
+    bigLength, err := rand.Int(rand.Reader, big.NewInt(128))
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // convert to a regular old int
+    length := int(bigLength.Int64())
+
+    randomContent := make([]byte, length)
+    _, err = rand.Read(randomContent)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // now we will build our result
+    result := make([]byte, 2)
+    result[0] = 0x03
     result[1] = byte(length)
 
     // and now we add on the contents
