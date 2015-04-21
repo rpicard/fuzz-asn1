@@ -10,7 +10,7 @@ type EncodingRuleset interface {
     RandomBoolean() []byte
     RandomInteger() []byte
     RandomBitString() []byte
-    //RandomOctetString() []byte
+    RandomOctetString() []byte
     //RandomNull() []byte
     //RandomObjectIdentifier() []byte
     //RandomReal() []byte
