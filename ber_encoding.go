@@ -146,7 +146,7 @@ func (berEncoding) RandomOctetString() []byte {
 
     // now we will build our result
     result := make([]byte, 2)
-    result[0] = 0x03
+    result[0] = 0x04
     result[1] = byte(len(randomContent))
 
     // and now we add on the contents
