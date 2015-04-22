@@ -2,6 +2,8 @@ package main
 
 import (
     "crypto/rand"
+    "errors"
+    "strings"
     "os"
     "log"
     "path"
@@ -28,7 +30,19 @@ func main() {
 
     app := cli.App("fuzz-asn1", "generate random asn.1 data")
 
+    encodingOpt := app.StringOpt("e encoding", "ber", "which encoding ruleset should we use?")
+
     app.Action = func() {
+
+        var encoding EncodingRuleset
+
+        switch strings.ToLower(*encodingOpt) {
+        case "ber":
+            encoding = BerEncoding
+        default:
+            log.Fatal(errors.New("I do not know that encoding."))
+        }
+
         cwd, err := os.Getwd()
         if err != nil {
             log.Fatal(err)
@@ -45,7 +59,7 @@ func main() {
             log.Fatal(err)
         }
 
-        fmt.Fprintf(outFile, "%s", BerEncoding.RandomIa5String())
+        fmt.Fprintf(outFile, "%s", encoding.RandomIa5String())
     }
 
     app.Run(os.Args)
