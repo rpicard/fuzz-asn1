@@ -226,3 +226,18 @@ func (berEncoding) RandomEnumerated() []byte {
 
     return result
 }
+
+func (berEncoding) RandomNumericString() []byte {
+
+    charSet := "0123456789 "
+
+    randomContent := GetRandomContentFromCharset(charSet)
+
+    result := make([]byte, 2)
+    result[0] = 0x12
+    result[1] = byte(len(randomContent))
+
+    result = append(result, randomContent...)
+
+    return result
+}

@@ -19,6 +19,7 @@ type EncodingRuleset interface {
     RandomObjectIdentifier() []byte
     RandomReal() []byte
     RandomEnumerated() []byte
+    RandomNumericString() []byte
 }
 
 func main() {
@@ -37,12 +38,12 @@ func main() {
         }
 
         // just generating one value for now
-        outFile, err := os.Create(path.Join(cwd, "tmp", "real.asn1"))
+        outFile, err := os.Create(path.Join(cwd, "tmp", "output.asn1"))
         if err != nil {
             log.Fatal(err)
         }
 
-        fmt.Fprintf(outFile, "%s", BerEncoding.RandomReal())
+        fmt.Fprintf(outFile, "%s", BerEncoding.RandomNumericString())
     }
 
     app.Run(os.Args)
@@ -71,4 +72,29 @@ func GetRandomContent() []byte {
     return randomContent
 }
 
+func GetRandomContentFromCharset(charSet string) []byte {
 
+    // get a random length
+    bigLength, err := rand.Int(rand.Reader, big.NewInt(128))
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // convert to a regular old int
+    length := int(bigLength.Int64())
+
+    result := make([]byte, length)
+
+    for i := 0; i < length; i++ {
+        // get a random character from the charset
+        bigIndex, err := rand.Int(rand.Reader, big.NewInt(int64(len(charSet))))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        index := int(bigIndex.Int64())
+        result[i] = charSet[index]
+    }
+
+    return result
+}
