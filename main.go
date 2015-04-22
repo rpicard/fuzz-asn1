@@ -247,7 +247,7 @@ func GetRandomContentFromCharset(charSet string) []byte {
 	// convert to a regular old int
 	length := int(bigLength.Int64())
 
-	result := make([]byte, length)
+	randomContent := make([]byte, length)
 
 	for i := 0; i < length; i++ {
 		// get a random character from the charset
@@ -257,8 +257,8 @@ func GetRandomContentFromCharset(charSet string) []byte {
 		}
 
 		index := int(bigIndex.Int64())
-		result[i] = charSet[index]
+		randomContent[i] = charSet[index]
 	}
 
-	return result
+	return randomContent
 }
