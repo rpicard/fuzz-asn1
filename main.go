@@ -53,16 +53,164 @@ func main() {
             log.Fatal(err)
         }
 
-        // just generating one value for now
-        outFile, err := os.Create(path.Join(cwd, "tmp", "output.asn1"))
+        GenerateLotsOfSamples(encoding, path.Join(cwd, "tmp"))
+    }
+
+    app.Run(os.Args)
+}
+
+func GenerateLotsOfSamples(er EncodingRuleset, outdir string) {
+
+    // could have the user specify a number of samples on the command line
+    // not sure if that really matters. for now we are just going to generate
+    // a relatively appropriate amount of each type
+    //
+    // having a loop for each type feels pretty verbose. there might be a
+    // better way to do this, but for now it gets the job done
+
+    // generate 10 booleans
+    for i := 0; i < 10; i++ {
+        fileName := fmt.Sprintf("rand_bool_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
         if err != nil {
             log.Fatal(err)
         }
 
-        fmt.Fprintf(outFile, "%s", encoding.RandomIa5String())
+        fmt.Fprintf(outFile, "%s", er.RandomBoolean())
+        outFile.Close()
     }
 
-    app.Run(os.Args)
+    // generate 1000 integers
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_integer_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomInteger())
+        outFile.Close()
+    }
+
+    // generate 1000 bitstrings
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_bitstring_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomBitString())
+        outFile.Close()
+    }
+
+    // generate 1000 octetstrings
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_octetstring_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomOctetString())
+        outFile.Close()
+    }
+
+    // generate 1 null
+    // still looping for consistency
+    for i := 0; i < 1; i++ {
+        fileName := fmt.Sprintf("rand_null_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomNull())
+        outFile.Close()
+    }
+
+    // generate 1000 object identifiers
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_object_identifier_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomObjectIdentifier())
+        outFile.Close()
+    }
+
+    // generate 1000 reals
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_real_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomReal())
+        outFile.Close()
+    }
+
+    // generate 1000 enumerateds
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_enumerated_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomEnumerated())
+        outFile.Close()
+    }
+
+    // generate 1000 numeric strings
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_numeric_string_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomNumericString())
+        outFile.Close()
+    }
+
+    // generate 1000 printable strings
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_printable_string_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomPrintableString())
+        outFile.Close()
+    }
+
+    // generate 1000 ia5 strings
+    for i := 0; i < 1000; i++ {
+        fileName := fmt.Sprintf("rand_ia5_string_%d.asn1", i)
+
+        outFile, err := os.Create(path.Join(outdir, fileName))
+        if err != nil {
+            log.Fatal(err)
+        }
+
+        fmt.Fprintf(outFile, "%s", er.RandomIa5String())
+        outFile.Close()
+    }
 }
 
 func GetRandomContent() []byte {
