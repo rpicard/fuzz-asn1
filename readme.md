@@ -1,3 +1,2 @@
-generate lots of valid asn.1
+generate lots of valid asn.1 files, dumping them to `./tmp`.
 
-the plan is basically to pick a random type, then pick random values that make sense for that type
