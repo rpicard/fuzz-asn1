@@ -241,3 +241,40 @@ func (berEncoding) RandomNumericString() []byte {
 
     return result
 }
+
+func (berEncoding) RandomPrintableString() []byte {
+
+    // i do not like having this on one long line
+    charSet := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 '()+,-./:=?"
+
+    randomContent := GetRandomContentFromCharset(charSet)
+
+    result := make([]byte, 2)
+    result[0] = 0x13
+    result[1] = byte(len(randomContent))
+
+    result = append(result, randomContent...)
+
+    return result
+}
+
+func (berEncoding) RandomIa5String() []byte {
+
+    // this is an ascii string
+    // we are just going to generate a character set from all bytes < 128
+    var charSet string
+
+    for i := 0; i < 128; i++ {
+        charSet += string(i)
+    }
+
+    randomContent := GetRandomContentFromCharset(charSet)
+
+    result := make([]byte, 2)
+    result[0] = 0x16
+    result[1] = byte(len(randomContent))
+
+    result = append(result, randomContent...)
+
+    return result
+}

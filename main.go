@@ -20,6 +20,8 @@ type EncodingRuleset interface {
     RandomReal() []byte
     RandomEnumerated() []byte
     RandomNumericString() []byte
+    RandomPrintableString() []byte
+    RandomIa5String() []byte
 }
 
 func main() {
@@ -43,7 +45,7 @@ func main() {
             log.Fatal(err)
         }
 
-        fmt.Fprintf(outFile, "%s", BerEncoding.RandomNumericString())
+        fmt.Fprintf(outFile, "%s", BerEncoding.RandomIa5String())
     }
 
     app.Run(os.Args)
